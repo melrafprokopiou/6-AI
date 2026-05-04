@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>😂 6YO CHAOS AI</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #1b1b2f;
+  color: white;
+}
+
+.header {
+  padding: 12px;
+  text-align: center;
+  background: #0f0f1a;
+  font-weight: bold;
+}
+
+.chat {
+  height: 80vh;
+  overflow-y: auto;
+  padding: 15px;
+}
+
+.msg {
+  padding: 10px;
+  margin: 10px;
+  border-radius: 10px;
+  max-width: 75%;
+  animation: pop 0.2s ease;
+}
+
+@keyframes pop {
+  from {transform: scale(0.8); opacity: 0;}
+  to {transform: scale(1); opacity: 1;}
+}
+
+.user {
+  background: #10a37f;
+  margin-left: auto;
+}
+
+.bot {
+  background: #3c3f58;
+}
+
+.input {
+  display: flex;
+  padding: 10px;
+  background: #111;
+}
+
+input {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+}
+
+button {
+  margin-left: 8px;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.send { background:#10a37f; color:white; }
+.clear { background:#c0392b; color:white; }
+</style>
+</head>
+
+<body>
+
+<div class="header">😂 6 YEAR OLD CHAOS AI (NO BRAIN MODE)</div>
+
+<div id="chat" class="chat"></div>
+
+<div class="input">
+  <input id="input" placeholder="γράψε κάτι..." />
+  <button class="send" onclick="send()">Send</button>
+  <button class="clear" onclick="clearChat()">Clear</button>
+</div>
+
+<script>
+
+const chat = document.getElementById("chat");
+
+// 🧠 memory system
+let memory = [];
+
+// 💬 add message
+function add(text,type){
+  const div = document.createElement("div");
+  div.className = "msg " + type;
+  div.textContent = text;
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+// 🚀 START MESSAGE (FIX FOR BLANK PAGE)
+function start(){
+  add("🤖 Γεια! Είμαι ένα 6χρονο χαζό AI 😂","bot");
+  add("Δεν ξέρω τίποτα για σχολείο αλλά θα προσπαθήσω 😄","bot");
+}
+window.onload = start;
+
+// 🤯 AI BRAIN
+function ai(input){
+
+  const words = input.split(" ");
+  const w = words[Math.floor(Math.random()*words.length)] || "μπα";
+
+  memory.push(w);
+  if(memory.length > 7) memory.shift();
+
+  const text = input.toLowerCase();
+
+  // 📚 SCHOOL MODE (FUNNY WRONG ANSWERS)
+  if(text.includes("school") || text.includes("σχολ") || text.includes("math") || text.includes("+")){
+    const school = [
+      "Σχολείο = boss fight με μολύβια ✏️😂",
+      "1+1 = παγωτό 🍦",
+      "Η δασκάλα είναι dragon 🐉",
+      "Τα μαθηματικά είναι UFO 🛸",
+      "Δεν πάω σχολείο, πάω παγωτό 🍦",
+      "Οι αριθμοί τρέχουν 🏃‍♂️"
+    ];
+    return school[Math.floor(Math.random()*school.length)];
+  }
+
+  // ❓ QUESTIONS
+  if(text.includes("?")){
+    const q = [
+      "ΝΑΙ 100% 😂",
+      "ΟΧΙ γιατί το είπε η καρέκλα 🪑",
+      "Ίσως αν έχει παγωτό 🍦",
+      "Ρώτα το ψυγείο 🧊",
+      "Δεν ξέρω αλλά λέω ναι 😄"
+    ];
+    return q[Math.floor(Math.random()*q.length)];
+  }
+
+  // 😂 NORMAL CHAOS
+  const normal = [
+    "Το " + w + " είναι βασιλιάς 👑",
+    w + " = ΠΑΓΩΤΟ 🍦",
+    "Έφαγα " + w + " 🤖",
+    "Το " + w + " με κυνηγάει 🏃",
+    "Δεν ξέρω το " + w + " αλλά οκ 😄",
+    "Είδα " + w + " στον ουρανό 🌌"
+  ];
+
+  // 💥 CHAOS MODE
+  const chaos = [
+    "ΜΠΑΜ 💥 ΠΑΓΩΤΟ ΡΟΜΠΟΤ 🍦🤖",
+    "ΘΕΛΩ 999 ΠΑΓΩΤΑ 🍦",
+    "ΕΙΜΑΙ ΑΕΡΟΠΛΑΝΟ ✈️",
+    "ΠΟΥ ΕΙΝΑΙ Η ΜΑΜΑ 👩",
+    "ΕΧΑΣΑ ΤΟ ΜΥΑΛΟ ΜΟΥ 🧠❌"
+  ];
+
+  const r = Math.random();
+
+  if(r < 0.15) return chaos[Math.floor(Math.random()*chaos.length)];
+  if(r < 0.75) return normal[Math.floor(Math.random()*normal.length)];
+
+  return "ΧΑΧΑ δεν ξέρω αλλά γελάω 😂";
+}
+
+// 💬 SEND MESSAGE
+function send(){
+  const input = document.getElementById("input");
+  const text = input.value.trim();
+  if(!text) return;
+
+  add(text,"user");
+  input.value="";
+
+  const typing = document.createElement("div");
+  typing.className="msg bot";
+  typing.textContent="σκέφτομαι... 🤯";
+  chat.appendChild(typing);
+
+  setTimeout(()=>{
+    typing.remove();
+    add(ai(text),"bot");
+  },500);
+}
+
+// 🧹 CLEAR
+function clearChat(){
+  chat.innerHTML="";
+  memory=[];
+}
+
+// ⌨ ENTER KEY
+document.getElementById("input").addEventListener("keypress",(e)=>{
+  if(e.key==="Enter") send();
+});
+
+</script>
+
+</body>
+</html>
